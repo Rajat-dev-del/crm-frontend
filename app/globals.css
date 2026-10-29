@@ -1,26 +1,141 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* `dark:` utilities apply when <html> has the "dark" class (set by ThemeToggle). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Design tokens. Tailwind turns every token below into utilities, e.g.
+ *   --color-primary-600  -> bg-primary-600, text-primary-600, border-primary-600
+ *   --color-heading      -> text-heading
+ *   --text-title         -> text-title (size + line height + weight)
+ *   --shadow-card        -> shadow-card
+ *   --radius-card        -> rounded-card
+ * Change a value here to restyle the whole app; avoid hard-coded hex values in components.
+ */
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Brand */
+  --color-primary-50: #eef4ff;
+  --color-primary-100: #dbe6ff;
+  --color-primary-200: #bfd3ff;
+  --color-primary-300: #93b5ff;
+  --color-primary-400: #6b98ff;
+  --color-primary-500: #487fff;
+  --color-primary-600: #3366e6;
+  --color-primary-700: #2952bf;
+  --color-primary-800: #234499;
+  --color-primary-900: #1f3a7a;
+
+  /* Status */
+  --color-success-50: #ecf8f0;
+  --color-success-500: #45b369;
+  --color-success-600: #379257;
+  --color-warning-50: #fff5e9;
+  --color-warning-500: #ff9f29;
+  --color-warning-600: #e5851a;
+  --color-danger-50: #fdeeee;
+  --color-danger-500: #ef4444;
+  --color-danger-600: #dc2626;
+  --color-info-50: #e6f8fe;
+  --color-info-500: #00b8f2;
+  --color-info-600: #0098c9;
+
+  /* Accents for icons, dots and highlight cards */
+  --color-purple-50: #f3eefd;
+  --color-purple-500: #8252e9;
+  --color-purple-600: #6c3fd6;
+  --color-pink-50: #fdeefb;
+  --color-pink-500: #de3ace;
+  --color-pink-600: #c22bb3;
+
+  /* Typography scale: text-display, text-title, text-subtitle, text-nav, text-overline, text-label, text-caption */
+  --text-display: 1.75rem;
+  --text-display--line-height: 2.25rem;
+  --text-display--font-weight: 700;
+  --text-title: 1.5rem;
+  --text-title--line-height: 2rem;
+  --text-title--font-weight: 600;
+  --text-subtitle: 1.125rem;
+  --text-subtitle--line-height: 1.5rem;
+  --text-subtitle--font-weight: 600;
+  --text-nav: 0.9375rem;
+  --text-nav--line-height: 1.375rem;
+  --text-nav--font-weight: 500;
+  --text-overline: 0.75rem;
+  --text-overline--line-height: 1rem;
+  --text-overline--letter-spacing: 0.12em;
+  --text-overline--font-weight: 600;
+  --text-label: 0.875rem;
+  --text-label--line-height: 1.25rem;
+  --text-label--font-weight: 500;
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1rem;
+
+  --radius-card: 0.75rem;
+  --shadow-card: 0 1px 2px rgb(16 24 40 / 0.04), 0 1px 3px rgb(16 24 40 / 0.06);
+  --shadow-popover: 0 12px 32px rgb(16 24 40 / 0.12);
 }
 
+/* Surface and text colors switch with the theme, so they read from variables set below. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-app: var(--app);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-line: var(--line);
+  --color-heading: var(--heading);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --app: #f5f6fa;
+  --surface: #ffffff;
+  --surface-muted: #f3f4f6;
+  --line: #e5e7eb;
+  --heading: #111827;
+  --body: #4b5563;
+  --muted: #6b7280;
+
+  /* Layout sizes shared by the app shell (use as w-(--sidebar-width), h-(--header-height)). */
+  --sidebar-width: 16.5rem;
+  --sidebar-collapsed-width: 4.5rem;
+  --header-height: 4.5rem;
+
+  color-scheme: light;
+}
+
+.dark {
+  --app: #111827;
+  --surface: #1b2431;
+  --surface-muted: #273142;
+  --line: #323d4e;
+  --heading: #f9fafb;
+  --body: #d1d5db;
+  --muted: #9ca3af;
+
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-app text-body font-sans antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-heading;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-500;
+  }
 }
